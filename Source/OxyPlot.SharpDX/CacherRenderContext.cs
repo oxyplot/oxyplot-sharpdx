@@ -149,7 +149,7 @@ namespace OxyPlot.SharpDX
         public void DrawEllipses(IList<OxyRect> rectangles, OxyColor fill, OxyColor stroke, double thickness)
         {
             var ellipseGeometries = rectangles.Select(x => new EllipseGeometry(this.d2dFactory, x.ToEllipse())).ToArray();
-            var group = new GeometryGroup(this.d2dFactory, FillMode.Alternate, ellipseGeometries);
+            var group = new GeometryGroup(this.d2dFactory, FillMode.Winding, ellipseGeometries);
 
             this.renderUnits.Add(new GeometryRenderUnit(group, this.GetBrush(stroke), this.GetBrush(fill), (float)thickness, null));
 
@@ -176,12 +176,15 @@ namespace OxyPlot.SharpDX
             OxyPlot.LineJoin lineJoin,
             bool aliased)
         {
+            if (points.Count <= 1)
+                return;
+
             var path = new PathGeometry(this.d2dFactory);
             var sink = path.Open();
-            sink.BeginFigure(points[0].ToVector2(aliased), new FigureBegin());
+            sink.BeginFigure(points[0].ToVector2(aliased), FigureBegin.Hollow);
 
             sink.AddLines(points.Skip(1).Select(pt => (dx.Mathematics.Interop.RawVector2)pt.ToVector2(aliased)).ToArray());
-            sink.EndFigure(new FigureEnd());
+            sink.EndFigure(FigureEnd.Open);
             sink.Close();
             sink.Dispose();
 
@@ -212,10 +215,10 @@ namespace OxyPlot.SharpDX
             var sink = path.Open();
             for (int i = 0; i + 1 < points.Count; i += 2)
             {
-                sink.BeginFigure(points[i].ToVector2(aliased), new FigureBegin());
+                sink.BeginFigure(points[i].ToVector2(aliased), FigureBegin.Hollow);
 
                 sink.AddLine(points[i + 1].ToVector2(aliased));
-                sink.EndFigure(new FigureEnd());
+                sink.EndFigure(FigureEnd.Open);
             }
 
             sink.Close();
@@ -247,10 +250,10 @@ namespace OxyPlot.SharpDX
         {
             var path = new PathGeometry(this.d2dFactory);
             var sink = path.Open();
-            sink.BeginFigure(points[0].ToVector2(aliased), new FigureBegin());
+            sink.BeginFigure(points[0].ToVector2(aliased), FigureBegin.Hollow);
 
             sink.AddLines(points.Skip(1).Select(pt => (dx.Mathematics.Interop.RawVector2)pt.ToVector2(aliased)).ToArray());
-            sink.EndFigure(new FigureEnd());
+            sink.EndFigure(FigureEnd.Closed);
             sink.Close();
             sink.Dispose();
 
@@ -283,10 +286,10 @@ namespace OxyPlot.SharpDX
             var sink = path.Open();
             foreach (var points in polygons)
             {
-                sink.BeginFigure(points[0].ToVector2(aliased), new FigureBegin());
+                sink.BeginFigure(points[0].ToVector2(aliased), FigureBegin.Hollow);
 
                 sink.AddLines(points.Skip(1).Select(pt => (dx.Mathematics.Interop.RawVector2)pt.ToVector2(aliased)).ToArray());
-                sink.EndFigure(new FigureEnd());
+                sink.EndFigure(FigureEnd.Closed);
             }
 
             sink.Close();
@@ -506,6 +509,7 @@ namespace OxyPlot.SharpDX
         public bool SetClip(OxyRect clippingRect)
         {
             this.clipRect = clippingRect.ToRectangleF();
+            renderUnits.Add(new ClipRectRenderUnit(clipRect));
             return true;
         }
 
@@ -513,7 +517,8 @@ namespace OxyPlot.SharpDX
         /// Resets the clipping rectangle.
         /// </summary>
         public void ResetClip()
-        {            
+        {
+            renderUnits.Add(new ClipRectRenderUnit(RectangleF.Empty));
         }
 
         /// <summary>
@@ -601,10 +606,7 @@ namespace OxyPlot.SharpDX
             // https://en.wikipedia.org/wiki/Quadtree
             foreach (var unit in this.renderUnits)
             {
-                if (unit.CheckBounds(viewport))
-                {
-                    unit.Render(this.renderTarget);
-                }
+                unit.Render(this.renderTarget);
             }
 
             this.renderTarget.Transform = original;
