@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CacherRenderContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RenderUnits\ClipRectRenderUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RenderUnits\EllipseRenderUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RenderUnits\GeometryRenderUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RenderUnits\ImageRenderUnit.cs" />
