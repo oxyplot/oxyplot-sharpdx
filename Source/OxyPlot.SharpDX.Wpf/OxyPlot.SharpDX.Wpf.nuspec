@@ -13,7 +13,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>wpf plotting plot charting chart sharpdx</tags>
     <dependencies>
-      <dependency id="OxyPlot.Core" version="[$version$]"/>
+      <dependency id="OxyPlot.Core" version="2.0.0-unstable1035"/>
       <dependency id="SharpDX" version="[3.0.2]"/>
       <dependency id="SharpDX.Direct2D1" version="[3.0.2]"/>
       <dependency id="SharpDX.Direct3D11" version="[3.0.2]"/>
