@@ -717,7 +717,12 @@ namespace OxyPlot.SharpDX
                 this.imagesInUse.Add(image);
             }
 
-            Bitmap res;
+			if (this.imageCache.ContainsKey(image))
+			{
+				return this.imageCache[image];
+			}
+
+			Bitmap res;
             using (var stream = new MemoryStream(image.GetData()))
             {
                 var decoder = new BitmapDecoder(this.wicFactory, stream, DecodeOptions.CacheOnDemand);
