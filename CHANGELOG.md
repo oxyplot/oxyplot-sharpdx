@@ -12,3 +12,4 @@ All notable changes to this project will be documented in this file.
 - Clipping
 - Text rotation (#1075)
 - Polygon geometry fill rendering (#6)
+- Image Annotations (#7)
