@@ -250,7 +250,7 @@ namespace OxyPlot.SharpDX
         {
             var path = new PathGeometry(this.d2dFactory);
             var sink = path.Open();
-            sink.BeginFigure(points[0].ToVector2(aliased), FigureBegin.Hollow);
+            sink.BeginFigure(points[0].ToVector2(aliased), this.GetBrush(fill) == null ? FigureBegin.Hollow : FigureBegin.Filled);
 
             sink.AddLines(points.Skip(1).Select(pt => (dx.Mathematics.Interop.RawVector2)pt.ToVector2(aliased)).ToArray());
             sink.EndFigure(FigureEnd.Closed);
