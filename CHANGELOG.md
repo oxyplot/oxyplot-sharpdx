@@ -11,3 +11,4 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Clipping
 - Text rotation (#1075)
+- Image Annotations (#7)
