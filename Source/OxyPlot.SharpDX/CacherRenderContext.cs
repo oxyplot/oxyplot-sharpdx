@@ -433,9 +433,9 @@ namespace OxyPlot.SharpDX
                 fontFamily = "Arial";
             }
 
-            if (text == null)
+            if (string.IsNullOrEmpty(text))
             {
-                text = string.Empty;
+                return OxySize.Empty;
             }
 
             var format = new TextFormat(this.dwtFactory, fontFamily, GetFontWeight(fontWeight), FontStyle.Normal, FontStretch.Normal, (float)fontSize);
