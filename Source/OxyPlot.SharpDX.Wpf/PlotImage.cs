@@ -566,6 +566,7 @@ namespace OxyPlot.SharpDX.Wpf
             bool sizeChanged = this.viewport != finalSize;
 
             this.viewport = finalSize;
+            this.extent = finalSize;
 
             if (this.ScrollOwner != null)
             {
