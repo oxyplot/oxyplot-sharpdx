@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 ### Changed
+- Moved rendering to WPF OnRender function. This should improve render performance under some conditions
 
 ### Removed
 

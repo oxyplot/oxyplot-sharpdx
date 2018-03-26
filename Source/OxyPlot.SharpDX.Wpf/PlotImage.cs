@@ -104,10 +104,15 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         private Size extent;
 
-        /// <summary>
-        /// The viewport.
-        /// </summary>
-        private Size viewport;
+		/// <summary>
+		/// Whether the size changed since last render
+		/// </summary>
+		private bool sizeChanged;
+
+		/// <summary>
+		/// The viewport.
+		/// </summary>
+		private Size viewport;
 
         /// <summary>
         /// The offset vector.
@@ -456,8 +461,12 @@ namespace OxyPlot.SharpDX.Wpf
         /// <param name="drawingContext">The drawing instructions for a specific element. This context is provided to the layout system.</param>
         protected override void OnRender(DrawingContext drawingContext)
         {
-            base.OnRender(drawingContext);
-            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+			base.OnRender(drawingContext);
+
+			this.Render(sizeChanged, false);
+			this.sizeChanged = false;
+
+			if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
             {
                 if (this.designModeImage == null)
                 {
@@ -563,7 +572,7 @@ namespace OxyPlot.SharpDX.Wpf
 
             this.Overlay.Arrange(new Rect(overlaySize));
 
-            bool sizeChanged = this.viewport != finalSize;
+            this.sizeChanged = this.viewport != finalSize;
 
             this.viewport = finalSize;
             this.extent = finalSize;
@@ -572,8 +581,6 @@ namespace OxyPlot.SharpDX.Wpf
             {
                 this.ScrollOwner.InvalidateScrollInfo();
             }
-
-            this.Render(sizeChanged, false);
 
             return finalSize;
         }
