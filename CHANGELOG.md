@@ -15,3 +15,4 @@ All notable changes to this project will be documented in this file.
 - Image Annotations (#7)
 - MeasureText fixed in cases where string is null or empty
 - Fixed render extent not being set in ArrangeOverride step on WPF (#12)
+- Fixed zero dimensions crashing plot (#14)

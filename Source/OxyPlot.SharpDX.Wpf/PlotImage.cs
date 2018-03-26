@@ -591,8 +591,8 @@ namespace OxyPlot.SharpDX.Wpf
                 dpiScale = hwndTarget.TransformToDevice.M11;
             }
 
-            int surfWidth = (int)(this.viewport.Width < 0 ? 0 : Math.Ceiling(this.viewport.Width * dpiScale));
-            int surfHeight = (int)(this.viewport.Height < 0 ? 0 : Math.Ceiling(this.viewport.Height * dpiScale));
+            int surfWidth = (int)(this.viewport.Width <= 0 ? 1 : Math.Ceiling(this.viewport.Width * dpiScale));
+            int surfHeight = (int)(this.viewport.Height <= 0 ? 1 : Math.Ceiling(this.viewport.Height * dpiScale));
 
             var windowHandle = (new WindowInteropHelper(Window.GetWindow(this))).Handle;
 
