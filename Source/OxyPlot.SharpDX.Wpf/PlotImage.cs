@@ -563,10 +563,15 @@ namespace OxyPlot.SharpDX.Wpf
 
             this.Overlay.Arrange(new Rect(overlaySize));
 
-            bool sizeChanged = this.viewport != finalSize;
+            int width = (int)(finalSize.Width < 1 ? 1 : finalSize.Width);
+            int height = (int)(finalSize.Height < 1 ? 1 : finalSize.Height);
 
-            this.viewport = finalSize;
-            this.extent = finalSize;
+            Size renderSize = new Size(width, height);
+
+            bool sizeChanged = this.viewport != renderSize;
+
+            this.viewport = renderSize;
+            this.extent = renderSize;
 
             if (this.ScrollOwner != null)
             {
