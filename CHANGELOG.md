@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 ### Changed
+Updated SharpDX nuget packages
+Updated OxyPlot nuget packages from MyGet
+Migrated to .NET Standard library
 
 ### Removed
 
