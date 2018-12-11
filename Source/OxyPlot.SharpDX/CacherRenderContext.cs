@@ -17,6 +17,7 @@ namespace OxyPlot.SharpDX
     using global::SharpDX.Direct2D1;
     using global::SharpDX.DirectWrite;
     using global::SharpDX.WIC;
+    using OxyPlot;
     using Bitmap = global::SharpDX.Direct2D1.Bitmap;
     using BitmapInterpolationMode = global::SharpDX.Direct2D1.BitmapInterpolationMode;
     using D2DFactory = global::SharpDX.Direct2D1.Factory;
