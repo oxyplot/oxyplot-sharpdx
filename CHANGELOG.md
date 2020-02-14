@@ -5,9 +5,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 ### Changed
-Updated SharpDX nuget packages
-Updated OxyPlot nuget packages from MyGet
-Migrated to .NET Standard library
+Updated SharpDX nuget packages to version 4.2.0
+Updated OxyPlot nuget packages from MyGet to version 2.0.0 stable
+Migrated OxyPlot.SharpDX to .NET Standard 1.1
+Update project files to VS2019 format
+OxyPlot.SharpDX.WPF: Dual-target .NET Framework 4.5.2 and .NET Core 3.1
+SimpleDemo: Target .NET Core 3.1
 
 ### Removed
 

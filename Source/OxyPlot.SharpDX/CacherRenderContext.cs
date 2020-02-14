@@ -28,7 +28,7 @@ namespace OxyPlot.SharpDX
     /// <summary>
     /// Represents class, that implements IRenderContext and caches render units to use them later render
     /// </summary>
-    internal class CacherRenderContext : IRenderContext, IDisposable
+    public class CacherRenderContext : IRenderContext, IDisposable
     {
         /// <summary>
         /// The brush cache.
