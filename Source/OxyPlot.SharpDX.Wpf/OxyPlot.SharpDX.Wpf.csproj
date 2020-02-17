@@ -13,6 +13,7 @@
     <Company>OxyPlot</Company>
     <PackageProjectUrl>https://oxyplot.github.io/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/oxyplot/oxyplot-sharpdx</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
