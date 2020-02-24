@@ -5,13 +5,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Markup;
 
-[assembly: AssemblyTitle("OxyPlot for WPF with SharpDX based renderer")]
-[assembly: AssemblyDescription("OxyPlot controls for WPF with SharpDX based renderer")]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
 
 [assembly: CLSCompliant(false)]
