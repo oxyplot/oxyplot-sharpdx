@@ -1,21 +1,17 @@
 image: Visual Studio 2019
 
-configuration: 
-  - Release
-
 pull_requests:
   do_not_increment_build_number: true
-
-install:
-  - cinst gitversion.portable -y
+  
+platform: Any CPU
+configuration: Release
+version: '2.0.0-unstable.{build}'
 
 before_build:
-  - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-  - NuGet restore Source/OxyPlot.SharpDX.sln
-  - gitversion /l console /output buildserver /updateAssemblyInfo
+  - nuget restore Source/OxyPlot.SharpDX.sln
 
 build_script:
-  - msbuild Source/OxyPlot.SharpDX.sln "/property:Platform=Any CPU" /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild Source/OxyPlot.SharpDX.sln "/p:Platform=Any CPU" "/p:Configuration=Release" "/p:Version=%APPVEYOR_BUILD_VERSION%" /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
  
 artifacts:
   - path: '**/bin/Release/*.nupkg'
