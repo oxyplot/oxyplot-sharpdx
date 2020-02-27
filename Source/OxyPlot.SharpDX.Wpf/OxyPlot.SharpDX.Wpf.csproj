@@ -14,6 +14,7 @@
     <PackageProjectUrl>https://oxyplot.github.io/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/oxyplot/oxyplot-sharpdx</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

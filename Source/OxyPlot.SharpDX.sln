@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Change log", "Change log", "{4334530D-EBDE-4F04-838A-DA5A8A598124}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,11 +16,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OxyPlot.SharpDX.Wpf", "OxyPlot.SharpDX.Wpf\OxyPlot.SharpDX.Wpf.csproj", "{92129D21-61E9-4952-AB75-6E5B27C8D3F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OxyPlot.SharpDX.Wpf", "OxyPlot.SharpDX.Wpf\OxyPlot.SharpDX.Wpf.csproj", "{92129D21-61E9-4952-AB75-6E5B27C8D3F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDemo", "Examples\SharpDX.Wpf\SimpleDemo\SimpleDemo.csproj", "{48C8FBE0-C817-43BE-AC11-895A69100A86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDemo", "Examples\SharpDX.Wpf\SimpleDemo\SimpleDemo.csproj", "{48C8FBE0-C817-43BE-AC11-895A69100A86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OxyPlot.SharpDX", "OxyPlot.SharpDX\OxyPlot.SharpDX.csproj", "{5D8EC148-9B3D-4A3D-A0B9-A2E9812E647D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OxyPlot.SharpDX", "OxyPlot.SharpDX\OxyPlot.SharpDX.csproj", "{5D8EC148-9B3D-4A3D-A0B9-A2E9812E647D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{52AFE7DD-A2EF-4AF5-901D-ABD477D99770}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

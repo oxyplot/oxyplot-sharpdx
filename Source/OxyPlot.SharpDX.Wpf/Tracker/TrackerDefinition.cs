@@ -21,13 +21,13 @@ namespace OxyPlot.SharpDX.Wpf
         /// Identifies the <see cref="TrackerKey"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty TrackerKeyProperty = DependencyProperty.Register(
-            "TrackerKey", typeof(string), typeof(TrackerDefinition), new PropertyMetadata(null));
+            nameof(TrackerKey), typeof(string), typeof(TrackerDefinition), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="TrackerTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty TrackerTemplateProperty =
-            DependencyProperty.Register("TrackerTemplate", typeof(ControlTemplate), typeof(TrackerDefinition), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TrackerTemplate), typeof(ControlTemplate), typeof(TrackerDefinition), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the tracker key.
@@ -35,15 +35,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// <remarks>The Plot will use this property to find the TrackerDefinition that matches the TrackerKey of the current series.</remarks>
         public string TrackerKey
         {
-            get
-            {
-                return (string)this.GetValue(TrackerKeyProperty);
-            }
-
-            set
-            {
-                this.SetValue(TrackerKeyProperty, value);
-            }
+            get => (string)this.GetValue(TrackerKeyProperty);
+            set => this.SetValue(TrackerKeyProperty, value);
         }
 
         /// <summary>
@@ -53,15 +46,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// The DataContext of the tracker will be set to a TrackerHitResult with the current tracker data.</remarks>
         public ControlTemplate TrackerTemplate
         {
-            get
-            {
-                return (ControlTemplate)this.GetValue(TrackerTemplateProperty);
-            }
-
-            set
-            {
-                this.SetValue(TrackerTemplateProperty, value);
-            }
+            get => (ControlTemplate)this.GetValue(TrackerTemplateProperty);
+            set => this.SetValue(TrackerTemplateProperty, value);
         }
     }
 }

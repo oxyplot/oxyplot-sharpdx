@@ -22,6 +22,6 @@
             this.Model = model;
         }
 
-        public PlotModel Model { get; private set; }
+        public PlotModel Model { get; }
     }
 }
