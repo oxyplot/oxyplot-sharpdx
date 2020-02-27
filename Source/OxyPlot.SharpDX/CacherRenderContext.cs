@@ -46,11 +46,6 @@ namespace OxyPlot.SharpDX
         private readonly Dictionary<OxyImage, Bitmap> imageCache = new Dictionary<OxyImage, Bitmap>();
 
         /// <summary>
-        /// The Direct2D factory
-        /// </summary>
-        private D2DFactory d2dFactory;
-
-        /// <summary>
         /// The DirectWrite factory
         /// </summary>
         private DWFactory dwtFactory;
@@ -68,12 +63,7 @@ namespace OxyPlot.SharpDX
         /// <summary>
         /// Units that will be rendered on Render call
         /// </summary>
-        private List<IRenderUnit> renderUnits = new List<IRenderUnit>();
-
-        /// <summary>
-        /// The current tool tip
-        /// </summary>
-        private string currentToolTip;
+        private readonly List<IRenderUnit> renderUnits = new List<IRenderUnit>();
 
         /// <summary>
         /// The clip rectangle.
@@ -85,22 +75,10 @@ namespace OxyPlot.SharpDX
         /// </summary>      
         public CacherRenderContext()
         {
-            this.d2dFactory = new D2DFactory();
+            this.D2DFactory = new D2DFactory();
             this.dwtFactory = new DWFactory();
             this.wicFactory = new WICFactory();
             this.RendersToScreen = true;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether to paint the background.
-        /// </summary>
-        /// <value><c>true</c> if the background should be painted; otherwise, <c>false</c>.</value>
-        public bool PaintBackground
-        {
-            get
-            {
-                return false;
-            }
         }
 
         /// <summary>
@@ -112,18 +90,7 @@ namespace OxyPlot.SharpDX
         /// <summary>
         /// Gets or sets the Direct2D factory
         /// </summary>
-        public D2DFactory D2DFactory
-        {
-            get
-            {
-                return this.d2dFactory;
-            }
-
-            set
-            {
-                this.d2dFactory = value;
-            }
-        }
+        public D2DFactory D2DFactory { get; set; }
 
         /// <summary>
         /// Draws an ellipse.
@@ -149,8 +116,8 @@ namespace OxyPlot.SharpDX
         /// <param name="thickness">The stroke thickness.</param>
         public void DrawEllipses(IList<OxyRect> rectangles, OxyColor fill, OxyColor stroke, double thickness)
         {
-            var ellipseGeometries = rectangles.Select(x => new EllipseGeometry(this.d2dFactory, x.ToEllipse())).ToArray();
-            var group = new GeometryGroup(this.d2dFactory, FillMode.Winding, ellipseGeometries);
+            var ellipseGeometries = rectangles.Select(x => (Geometry)new EllipseGeometry(this.D2DFactory, x.ToEllipse())).ToArray();
+            var group = new GeometryGroup(this.D2DFactory, FillMode.Winding, ellipseGeometries);
 
             this.renderUnits.Add(new GeometryRenderUnit(group, this.GetBrush(stroke), this.GetBrush(fill), (float)thickness, null));
 
@@ -180,7 +147,7 @@ namespace OxyPlot.SharpDX
             if (points.Count <= 1)
                 return;
 
-            var path = new PathGeometry(this.d2dFactory);
+            var path = new PathGeometry(this.D2DFactory);
             var sink = path.Open();
             sink.BeginFigure(points[0].ToVector2(aliased), FigureBegin.Hollow);
 
@@ -212,9 +179,9 @@ namespace OxyPlot.SharpDX
             OxyPlot.LineJoin lineJoin,
             bool aliased)
         {
-            var path = new PathGeometry(this.d2dFactory);
+            var path = new PathGeometry(this.D2DFactory);
             var sink = path.Open();
-            for (int i = 0; i + 1 < points.Count; i += 2)
+            for (var i = 0; i + 1 < points.Count; i += 2)
             {
                 sink.BeginFigure(points[i].ToVector2(aliased), FigureBegin.Hollow);
 
@@ -249,7 +216,7 @@ namespace OxyPlot.SharpDX
             OxyPlot.LineJoin lineJoin,
             bool aliased)
         {
-            var path = new PathGeometry(this.d2dFactory);
+            var path = new PathGeometry(this.D2DFactory);
             var sink = path.Open();
             sink.BeginFigure(points[0].ToVector2(aliased), this.GetBrush(fill) == null ? FigureBegin.Hollow : FigureBegin.Filled);
 
@@ -283,7 +250,7 @@ namespace OxyPlot.SharpDX
             OxyPlot.LineJoin lineJoin,
             bool aliased)
         {
-            var path = new PathGeometry(this.d2dFactory);
+            var path = new PathGeometry(this.D2DFactory);
             var sink = path.Open();
             foreach (var points in polygons)
             {
@@ -322,8 +289,8 @@ namespace OxyPlot.SharpDX
         /// <param name="thickness">The stroke thickness.</param>
         public void DrawRectangles(IList<OxyRect> rectangles, OxyColor fill, OxyColor stroke, double thickness)
         {
-            var rectangleGeometries = rectangles.Select(x => new RectangleGeometry(this.d2dFactory, x.ToRectangleF())).ToArray();
-            var group = new GeometryGroup(this.d2dFactory, FillMode.Winding, rectangleGeometries);
+            var rectangleGeometries = rectangles.Select(x => (Geometry)new RectangleGeometry(this.D2DFactory, x.ToRectangleF())).ToArray();
+            var group = new GeometryGroup(this.D2DFactory, FillMode.Winding, rectangleGeometries);
 
             this.renderUnits.Add(new GeometryRenderUnit(group, this.GetBrush(stroke), this.GetBrush(fill), (float)thickness, null));
 
@@ -456,7 +423,6 @@ namespace OxyPlot.SharpDX
         /// <param name="text">The text in the tooltip.</param>
         public void SetToolTip(string text)
         {
-            this.currentToolTip = text;
         }
 
         /// <summary>
@@ -510,7 +476,7 @@ namespace OxyPlot.SharpDX
         public bool SetClip(OxyRect clippingRect)
         {
             this.clipRect = clippingRect.ToRectangleF();
-            renderUnits.Add(new ClipRectRenderUnit(clipRect));
+            this.renderUnits.Add(new ClipRectRenderUnit(this.clipRect));
             return true;
         }
 
@@ -519,7 +485,7 @@ namespace OxyPlot.SharpDX
         /// </summary>
         public void ResetClip()
         {
-            renderUnits.Add(new ClipRectRenderUnit(RectangleF.Empty));
+            this.renderUnits.Add(new ClipRectRenderUnit(RectangleF.Empty));
         }
 
         /// <summary>
@@ -539,17 +505,17 @@ namespace OxyPlot.SharpDX
 
             this.imagesInUse.Clear();
         }
-        
+
         /// <summary>
         /// On changing renderTarget (on resize for example), this method should be called.
         /// Clears invalid for new renderTarget resources (like brushes).
         /// </summary>
-        /// <param name="renderTarget">The render target.</param>
-        public void ResetRenderTarget(RenderTarget renderTarget)
+        /// <param name="newRenderTarget">The render target.</param>
+        public void ResetRenderTarget(RenderTarget newRenderTarget)
         {
             this.ResetRenderUnits();
 
-            if (this.renderTarget == renderTarget)
+            if (this.renderTarget == newRenderTarget)
             {
                 return;
             }
@@ -570,7 +536,7 @@ namespace OxyPlot.SharpDX
 
             this.imagesInUse.Clear();
 
-            this.renderTarget = renderTarget;          
+            this.renderTarget = newRenderTarget;          
         }
         
         /// <summary>
@@ -619,6 +585,15 @@ namespace OxyPlot.SharpDX
         /// </summary>
         public void Dispose()
         {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+                return;
+
             foreach (var item in this.brushCache.Values)
             {
                 item.Dispose();
@@ -631,10 +606,7 @@ namespace OxyPlot.SharpDX
 
             this.imageCache.Clear();
             this.brushCache.Clear();
-            if (this.renderTarget != null)
-            {
-                this.renderTarget.Dispose();
-            }
+            this.renderTarget?.Dispose();
 
             foreach (var unit in this.renderUnits)
             {
@@ -643,12 +615,11 @@ namespace OxyPlot.SharpDX
 
             this.renderUnits.Clear();
 
-            // d2dFactory.Dispose();
             this.dwtFactory.Dispose();
             this.wicFactory.Dispose();
 
             this.renderTarget = null;
-            this.d2dFactory = null;
+            this.D2DFactory = null;
             this.dwtFactory = null;
             this.wicFactory = null;
         }
@@ -673,10 +644,11 @@ namespace OxyPlot.SharpDX
         {
             if (dashArray == null)
             {
-                return new StrokeStyle(this.d2dFactory, new StrokeStyleProperties { LineJoin = lineJoin.ToDXLineJoin() });
+                return new StrokeStyle(this.D2DFactory, new StrokeStyleProperties { LineJoin = lineJoin.ToDxLineJoin() });
             }
 
-            return new StrokeStyle(this.d2dFactory, new StrokeStyleProperties { LineJoin = lineJoin.ToDXLineJoin(), DashStyle = DashStyle.Custom }, dashArray.Select(x => (float)x).ToArray());
+            var strokeStyleProperties = new StrokeStyleProperties {LineJoin = lineJoin.ToDxLineJoin(), DashStyle = DashStyle.Custom};
+            return new StrokeStyle(this.D2DFactory, strokeStyleProperties, dashArray.Select(x => (float)x).ToArray());
         }
 
         /// <summary>
@@ -691,10 +663,9 @@ namespace OxyPlot.SharpDX
                 return null;
             }
 
-            Brush brush;
-            if (!this.brushCache.TryGetValue(color, out brush))
+            if (!this.brushCache.TryGetValue(color, out var brush))
             {
-                brush = new SolidColorBrush(this.renderTarget, color.ToDXColor());
+                brush = new SolidColorBrush(this.renderTarget, color.ToDxColor());
                 this.brushCache.Add(color, brush);
             }
 
@@ -723,16 +694,13 @@ namespace OxyPlot.SharpDX
 				return this.imageCache[image];
 			}
 
-			Bitmap res;
-            using (var stream = new MemoryStream(image.GetData()))
-            {
-                var decoder = new BitmapDecoder(this.wicFactory, stream, DecodeOptions.CacheOnDemand);
-                var frame = decoder.GetFrame(0);
-                var converter = new FormatConverter(this.wicFactory);
-                converter.Initialize(frame, dx.WIC.PixelFormat.Format32bppPRGBA);
+            using var stream = new MemoryStream(image.GetData());
+            using var decoder = new BitmapDecoder(this.wicFactory, stream, DecodeOptions.CacheOnDemand);
+            var frame = decoder.GetFrame(0);
+            using var converter = new FormatConverter(this.wicFactory);
+            converter.Initialize(frame, dx.WIC.PixelFormat.Format32bppPRGBA);
 
-                res = Bitmap.FromWicBitmap(this.renderTarget, converter);
-            }
+            var res = Bitmap.FromWicBitmap(this.renderTarget, converter);
 
             this.imageCache.Add(image, res);
             return res;

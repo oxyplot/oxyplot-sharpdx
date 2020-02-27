@@ -11,7 +11,7 @@
         /// <summary>
         /// Clipping rect to set on a target.
         /// </summary>
-        private RectangleF clipRect;
+        private readonly RectangleF clipRect;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ClipRectRenderUnit" /> class.
@@ -28,9 +28,9 @@
         /// <param name="renderTarget"></param>
         public void Render(RenderTarget renderTarget)
         {
-            if (clipRect != RectangleF.Empty)
+            if (this.clipRect != RectangleF.Empty)
             {
-                renderTarget.PushAxisAlignedClip(clipRect, AntialiasMode.PerPrimitive);
+                renderTarget.PushAxisAlignedClip(this.clipRect, AntialiasMode.PerPrimitive);
             }
             else
             {

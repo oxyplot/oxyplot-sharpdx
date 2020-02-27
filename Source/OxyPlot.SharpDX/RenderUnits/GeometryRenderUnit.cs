@@ -95,12 +95,8 @@ namespace OxyPlot.SharpDX
         /// </summary>
         public void Dispose()
         {
-            if (this.strokeStyle != null)
-            {
-                this.strokeStyle.Dispose();
-            }
-
-            this.geometry.Dispose();
+            this.strokeStyle?.Dispose();
+            this.geometry?.Dispose();
 
             this.fill = null;
             this.geometry = null;

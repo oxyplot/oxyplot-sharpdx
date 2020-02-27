@@ -31,13 +31,9 @@ namespace OxyPlot.SharpDX.Wpf
         /// <returns>The maximum value of the thickness.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Thickness)
+            if (value is Thickness t && targetType == typeof(double))
             {
-                var t = (Thickness)value;
-                if (targetType == typeof(double))
-                {
-                    return Math.Max(Math.Max(t.Left, t.Right), Math.Max(t.Top, t.Bottom));
-                }
+                return Math.Max(Math.Max(t.Left, t.Right), Math.Max(t.Top, t.Bottom));
             }
 
             return null;

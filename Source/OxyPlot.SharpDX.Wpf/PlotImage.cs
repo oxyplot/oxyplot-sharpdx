@@ -12,7 +12,7 @@ namespace OxyPlot.SharpDX.Wpf
     using System.Windows.Interop;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
-    using OxyPlot.SharpDX;
+    using SharpDX;
     using global::SharpDX;
     using global::SharpDX.Direct3D;
     using global::SharpDX.Direct3D11;
@@ -26,7 +26,6 @@ namespace OxyPlot.SharpDX.Wpf
     using D3D9PresentParameters = global::SharpDX.Direct3D9.PresentParameters;
     using D3D9SwapEffect = global::SharpDX.Direct3D9.SwapEffect;
     using Direct3D = global::SharpDX.Direct3D9.Direct3DEx;
-    using DXGIResource = global::SharpDX.DXGI.Resource;
     using PixelFormat = global::SharpDX.Direct2D1.PixelFormat;
     using RenderTarget = global::SharpDX.Direct2D1.RenderTarget;
     using RenderTargetProperties = global::SharpDX.Direct2D1.RenderTargetProperties;
@@ -120,6 +119,11 @@ namespace OxyPlot.SharpDX.Wpf
         private BitmapImage designModeImage;
 
         /// <summary>
+        /// The back buffer.
+        /// </summary>
+        private Texture2D backBuffer;
+
+        /// <summary>
         ///  Initializes a new instance of the <see cref = "PlotImage" /> class.
         /// </summary>
         public PlotImage()
@@ -143,8 +147,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public IPlotModel PlotModel
         {
-            get { return (IPlotModel)this.GetValue(PlotModelProperty); }
-            set { this.SetValue(PlotModelProperty, value); }
+            get => (IPlotModel)this.GetValue(PlotModelProperty);
+            set => this.SetValue(PlotModelProperty, value);
         }
 
         /// <summary>
@@ -152,8 +156,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public double PlotHeight
         {
-            get { return (double)this.GetValue(PlotHeightProperty); }
-            set { this.SetValue(PlotHeightProperty, value); }
+            get => (double)this.GetValue(PlotHeightProperty);
+            set => this.SetValue(PlotHeightProperty, value);
         }
 
         /// <summary>
@@ -161,25 +165,19 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public double PlotWidth
         {
-            get { return (double)this.GetValue(PlotWidthProperty); }
-            set { this.SetValue(PlotWidthProperty, value); }
+            get => (double)this.GetValue(PlotWidthProperty);
+            set => this.SetValue(PlotWidthProperty, value);
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether scrolling on the vertical axis is possible.
         /// </summary>
-        public bool CanVerticallyScroll
-        {
-            get; set;
-        }
+        public bool CanVerticallyScroll { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether scrolling on the vertical axis is possible.
         /// </summary>
-        public bool CanHorizontallyScroll
-        {
-            get; set;
-        }
+        public bool CanHorizontallyScroll { get; set; }
 
         /// <summary>
         /// Gets the horizontal size of the extent.
@@ -276,7 +274,7 @@ namespace OxyPlot.SharpDX.Wpf
             }
 
             this.renderTarget.BeginDraw();
-            this.renderTarget.Clear(backColor.ToDXColor());
+            this.renderTarget.Clear(backColor.ToDxColor());
             this.oxyRenderContext.Render(new RectangleF((float)this.offset.X, (float)this.offset.Y, (float)this.viewport.Width, (float)this.viewport.Height)); // TODO: add clip rectangle
             this.renderTarget.EndDraw();
 
@@ -392,20 +390,20 @@ namespace OxyPlot.SharpDX.Wpf
         /// <summary>
         /// Sets the amount of horizontal offset.
         /// </summary>
-        /// <param name="offset">The degree to which content is horizontally offset from the containing viewport.</param>
-        public void SetHorizontalOffset(double offset)
+        /// <param name="hoffset">The degree to which content is horizontally offset from the containing viewport.</param>
+        public void SetHorizontalOffset(double hoffset)
         {
-            this.offset.X = offset;
+            this.offset.X = hoffset;
             this.InvalidateVisual();
         }
 
         /// <summary>
         /// Sets the amount of vertical offset.
         /// </summary>
-        /// <param name="offset">The degree to which content is vertically offset from the containing viewport.</param>
-        public void SetVerticalOffset(double offset)
+        /// <param name="voffset">The degree to which content is vertically offset from the containing viewport.</param>
+        public void SetVerticalOffset(double voffset)
         {
-            this.offset.Y = offset;
+            this.offset.Y = voffset;
             this.InvalidateVisual();
         }
 
@@ -520,10 +518,7 @@ namespace OxyPlot.SharpDX.Wpf
             var desired = new Size(desiredWidth, desiredHeight);
 
             this.Overlay.Measure(desired);
-            if (this.ScrollOwner != null)
-            {
-                this.ScrollOwner.InvalidateScrollInfo();
-            }
+            this.ScrollOwner?.InvalidateScrollInfo();
 
             return desired;
         }
@@ -563,12 +558,12 @@ namespace OxyPlot.SharpDX.Wpf
 
             this.Overlay.Arrange(new Rect(overlaySize));
 
-            int width = (int)(finalSize.Width < 1 ? 1 : finalSize.Width);
-            int height = (int)(finalSize.Height < 1 ? 1 : finalSize.Height);
+            var width = (int)(finalSize.Width < 1 ? 1 : finalSize.Width);
+            var height = (int)(finalSize.Height < 1 ? 1 : finalSize.Height);
 
-            Size renderSize = new Size(width, height);
+            var renderSize = new Size(width, height);
 
-            bool sizeChanged = this.viewport != renderSize;
+            var sizeChanged = this.viewport != renderSize;
 
             this.viewport = renderSize;
             this.extent = renderSize;
@@ -588,18 +583,17 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         private void InitRendering()
         {
-            double dpiScale = 1.0; // default value for 96 dpi
+            var dpiScale = 1.0; // default value for 96 dpi
 
-            var hwndTarget = PresentationSource.FromVisual(this).CompositionTarget as HwndTarget;
-            if (hwndTarget != null)
+            if (PresentationSource.FromVisual(this)?.CompositionTarget is HwndTarget hwndTarget)
             {
                 dpiScale = hwndTarget.TransformToDevice.M11;
             }
 
-            int surfWidth = (int)(this.viewport.Width <= 0 ? 1 : Math.Ceiling(this.viewport.Width * dpiScale));
-            int surfHeight = (int)(this.viewport.Height <= 0 ? 1 : Math.Ceiling(this.viewport.Height * dpiScale));
+            var surfWidth = (int)(this.viewport.Width <= 0 ? 1 : Math.Ceiling(this.viewport.Width * dpiScale));
+            var surfHeight = (int)(this.viewport.Height <= 0 ? 1 : Math.Ceiling(this.viewport.Height * dpiScale));
 
-            var windowHandle = (new WindowInteropHelper(Window.GetWindow(this))).Handle;
+            var windowHandle = new WindowInteropHelper(Window.GetWindow(this)).Handle;
 
             this.d3d11Device = new D3D11Device(
                 DriverType.Hardware,
@@ -611,7 +605,7 @@ namespace OxyPlot.SharpDX.Wpf
                 FeatureLevel.Level_9_2,
                 FeatureLevel.Level_9_1);
 
-            var backBuffer = new Texture2D(
+            this.backBuffer = new Texture2D(
                 this.d3d11Device,
                 new Texture2DDescription
                 {
@@ -627,7 +621,7 @@ namespace OxyPlot.SharpDX.Wpf
                     CpuAccessFlags = 0
                 });
 
-            var surface = backBuffer.QueryInterface<Surface>();
+            var surface = this.backBuffer.QueryInterface<Surface>();
             this.renderTarget = new RenderTarget(
                 this.oxyRenderContext.D2DFactory,
                 surface,
@@ -647,7 +641,7 @@ namespace OxyPlot.SharpDX.Wpf
                     Windowed = true
                 });
 
-            this.imageSource = new D3D11Image(this.d3d9Device, backBuffer);
+            this.imageSource = new D3D11Image(this.d3d9Device, this.backBuffer);
 
             this.oxyRenderContext.ResetRenderTarget(this.renderTarget);
         }
@@ -666,7 +660,9 @@ namespace OxyPlot.SharpDX.Wpf
             this.d3d9Device?.Dispose();
             this.renderTarget?.Dispose();
             this.d3d11Device?.Dispose();
+            this.backBuffer?.Dispose();
 
+            this.backBuffer = null;
             this.imageSource = null;
             this.d3d9Device = null;
             this.renderTarget = null;

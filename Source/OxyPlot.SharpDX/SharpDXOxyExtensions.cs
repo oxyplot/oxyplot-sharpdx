@@ -16,7 +16,7 @@ namespace OxyPlot.SharpDX
     /// <summary>
     /// Represents class, that contains SharpDX and Oxy extensions.
     /// </summary>
-    internal static class SharpDXOxyExtensions
+    internal static class SharpDxOxyExtensions
     {
         /// <summary>
         /// Converts <see cref="ScreenPoint"/> to <see cref="Vector2"/>.
@@ -62,19 +62,15 @@ namespace OxyPlot.SharpDX
         /// </summary>
         /// <param name="lineJoin">The <see cref="LineJoin"/> to convert.</param>
         /// <returns>Return <see cref="LineJoin"/></returns>
-        public static DXLineJoin ToDXLineJoin(this LineJoin lineJoin)
+        public static DXLineJoin ToDxLineJoin(this LineJoin lineJoin)
         {
-            switch (lineJoin)
+            return lineJoin switch
             {
-                case LineJoin.Miter:
-                    return DXLineJoin.Miter;
-                case LineJoin.Round:
-                    return DXLineJoin.Round;
-                case LineJoin.Bevel:
-                    return DXLineJoin.Bevel;
-                default:
-                    return DXLineJoin.MiterOrBevel;
-            }
+                LineJoin.Miter => DXLineJoin.Miter,
+                LineJoin.Round => DXLineJoin.Round,
+                LineJoin.Bevel => DXLineJoin.Bevel,
+                _ => DXLineJoin.MiterOrBevel,
+            };
         }
 
         /// <summary>
@@ -82,7 +78,7 @@ namespace OxyPlot.SharpDX
         /// </summary>
         /// <param name="color">The color to convert.</param>
         /// <returns>Return <see cref="Color4"/></returns>
-        public static Color4 ToDXColor(this OxyColor color)
+        public static Color4 ToDxColor(this OxyColor color)
         {
             return new Color4(color.R * 1f / 255f, color.G * 1f / 255f, color.B * 1f / 255f, color.A * 1f / 255f);
         }

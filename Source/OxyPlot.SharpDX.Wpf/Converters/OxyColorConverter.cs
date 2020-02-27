@@ -63,14 +63,12 @@ namespace OxyPlot.SharpDX.Wpf
                 return null;
             }
 
-            if (value is Color)
+            if (value is Color color1)
             {
-                var color = (Color)value;
-                return OxyColor.FromArgb(color.A, color.R, color.G, color.B);
+                return OxyColor.FromArgb(color1.A, color1.R, color1.G, color1.B);
             }
 
-            var scb = value as SolidColorBrush;
-            if (scb != null)
+            if (value is SolidColorBrush scb)
             {
                 var color = scb.Color;
                 return OxyColor.FromArgb(color.A, color.R, color.G, color.B);

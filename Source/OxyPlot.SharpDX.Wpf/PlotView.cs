@@ -24,51 +24,51 @@ namespace OxyPlot.SharpDX.Wpf
         /// Identifies the <see cref="Controller"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ControllerProperty =
-            DependencyProperty.Register("Controller", typeof(IPlotController), typeof(PlotView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Controller), typeof(IPlotController), typeof(PlotView), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="DefaultTrackerTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DefaultTrackerTemplateProperty =
             DependencyProperty.Register(
-                "DefaultTrackerTemplate", typeof(ControlTemplate), typeof(PlotView), new PropertyMetadata(null));
+                nameof(DefaultTrackerTemplate), typeof(ControlTemplate), typeof(PlotView), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="HandleRightClicks"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HandleRightClicksProperty =
-            DependencyProperty.Register("HandleRightClicks", typeof(bool), typeof(PlotView), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(HandleRightClicks), typeof(bool), typeof(PlotView), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="IsMouseWheelEnabled"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsMouseWheelEnabledProperty =
-            DependencyProperty.Register("IsMouseWheelEnabled", typeof(bool), typeof(PlotView), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(IsMouseWheelEnabled), typeof(bool), typeof(PlotView), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="Model"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(
-            "Model", typeof(PlotModel), typeof(PlotView), new PropertyMetadata(null, ModelChanged));
+            nameof(Model), typeof(PlotModel), typeof(PlotView), new PropertyMetadata(null, ModelChanged));
 
         /// <summary>
         /// Identifies the <see cref="ZoomRectangleTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ZoomRectangleTemplateProperty =
             DependencyProperty.Register(
-                "ZoomRectangleTemplate", typeof(ControlTemplate), typeof(PlotView), new PropertyMetadata(null));
+                nameof(ZoomRectangleTemplate), typeof(ControlTemplate), typeof(PlotView), new PropertyMetadata(null));
         
         /// <summary>
         /// Identifies the <see cref="PlotHeight"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PlotHeightProperty =
-            DependencyProperty.Register("PlotHeight", typeof(double), typeof(PlotView), new PropertyMetadata(double.NaN));
+            DependencyProperty.Register(nameof(PlotHeight), typeof(double), typeof(PlotView), new PropertyMetadata(double.NaN));
         
         /// <summary>
         /// Identifies the <see cref="PlotWidth"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PlotWidthProperty =
-            DependencyProperty.Register("PlotWidth", typeof(double), typeof(PlotView), new PropertyMetadata(double.NaN));
+            DependencyProperty.Register(nameof(PlotWidth), typeof(double), typeof(PlotView), new PropertyMetadata(double.NaN));
 
         /// <summary>
         /// The Grid PART constant.
@@ -81,19 +81,9 @@ namespace OxyPlot.SharpDX.Wpf
         private readonly object modelLock = new object();
 
         /// <summary>
-        /// The tracker definitions.
-        /// </summary>
-        private readonly ObservableCollection<TrackerDefinition> trackerDefinitions;
-
-        /// <summary>
         /// The mouse down point.
         /// </summary>
         private ScreenPoint mouseDownPoint;
-
-        /// <summary>
-        /// The current model.
-        /// </summary>
-        private PlotModel currentModel;
 
         /// <summary>
         /// The current tracker.
@@ -127,9 +117,6 @@ namespace OxyPlot.SharpDX.Wpf
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PlotView), new FrameworkPropertyMetadata(typeof(PlotView)));
             global::SharpDX.Configuration.EnableReleaseOnFinalizer = true;
-#if DEBUG
-         //   global::SharpDX.Configuration.EnableReleaseOnFinalizer EnableObjectTracking = true;
-#endif
         }
         
         /// <summary>
@@ -138,8 +125,6 @@ namespace OxyPlot.SharpDX.Wpf
         public PlotView()
         {
             this.DefaultStyleKey = typeof(PlotView);
-
-            this.trackerDefinitions = new ObservableCollection<TrackerDefinition>();
         }
 
         /// <summary>
@@ -147,8 +132,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public double PlotHeight
         {
-            get { return (double)this.GetValue(PlotHeightProperty); }
-            set { this.SetValue(PlotHeightProperty, value); }
+            get => (double)this.GetValue(PlotHeightProperty);
+            set => this.SetValue(PlotHeightProperty, value);
         }
 
         /// <summary>
@@ -156,8 +141,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public double PlotWidth
         {
-            get { return (double)this.GetValue(PlotWidthProperty); }
-            set { this.SetValue(PlotWidthProperty, value); }
+            get => (double)this.GetValue(PlotWidthProperty);
+            set => this.SetValue(PlotWidthProperty, value);
         }
 
         /// <summary>
@@ -166,8 +151,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// <value>The PlotView controller.</value>
         public IPlotController Controller
         {
-            get { return (IPlotController)this.GetValue(ControllerProperty); }
-            set { this.SetValue(ControllerProperty, value); }
+            get => (IPlotController)this.GetValue(ControllerProperty);
+            set => this.SetValue(ControllerProperty, value);
         }
 
         /// <summary>
@@ -175,15 +160,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public ControlTemplate DefaultTrackerTemplate
         {
-            get
-            {
-                return (ControlTemplate)this.GetValue(DefaultTrackerTemplateProperty);
-            }
-
-            set
-            {
-                this.SetValue(DefaultTrackerTemplateProperty, value);
-            }
+            get => (ControlTemplate)this.GetValue(DefaultTrackerTemplateProperty);
+            set => this.SetValue(DefaultTrackerTemplateProperty, value);
         }
 
         /// <summary>
@@ -191,15 +169,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public bool HandleRightClicks
         {
-            get
-            {
-                return (bool)this.GetValue(HandleRightClicksProperty);
-            }
-
-            set
-            {
-                this.SetValue(HandleRightClicksProperty, value);
-            }
+            get => (bool)this.GetValue(HandleRightClicksProperty);
+            set => this.SetValue(HandleRightClicksProperty, value);
         }
 
         /// <summary>
@@ -207,15 +178,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public bool IsMouseWheelEnabled
         {
-            get
-            {
-                return (bool)this.GetValue(IsMouseWheelEnabledProperty);
-            }
-
-            set
-            {
-                this.SetValue(IsMouseWheelEnabledProperty, value);
-            }
+            get => (bool)this.GetValue(IsMouseWheelEnabledProperty);
+            set => this.SetValue(IsMouseWheelEnabledProperty, value);
         }
 
         /// <summary>
@@ -224,15 +188,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// <value>The <see cref="PlotModel" />.</value>
         public PlotModel Model
         {
-            get
-            {
-                return (PlotModel)this.GetValue(ModelProperty);
-            }
-
-            set
-            {
-                this.SetValue(ModelProperty, value);
-            }
+            get => (PlotModel)this.GetValue(ModelProperty);
+            set => this.SetValue(ModelProperty, value);
         }
 
         /// <summary>
@@ -241,28 +198,15 @@ namespace OxyPlot.SharpDX.Wpf
         /// <value>The zoom rectangle template.</value>
         public ControlTemplate ZoomRectangleTemplate
         {
-            get
-            {
-                return (ControlTemplate)this.GetValue(ZoomRectangleTemplateProperty);
-            }
-
-            set
-            {
-                this.SetValue(ZoomRectangleTemplateProperty, value);
-            }
+            get => (ControlTemplate)this.GetValue(ZoomRectangleTemplateProperty);
+            set => this.SetValue(ZoomRectangleTemplateProperty, value);
         }
 
         /// <summary>
         /// Gets the tracker definitions.
         /// </summary>
         /// <value>The tracker definitions.</value>
-        public ObservableCollection<TrackerDefinition> TrackerDefinitions
-        {
-            get
-            {
-                return this.trackerDefinitions;
-            }
-        }
+        public ObservableCollection<TrackerDefinition> TrackerDefinitions { get; } = new ObservableCollection<TrackerDefinition>();
 
         /// <summary>
         /// Gets the actual model in the view.
@@ -270,25 +214,13 @@ namespace OxyPlot.SharpDX.Wpf
         /// <value>
         /// The actual model.
         /// </value>
-        Model IView.ActualModel
-        {
-            get
-            {
-                return this.Model;
-            }
-        }
+        Model IView.ActualModel => this.Model;
 
         /// <summary>
         /// Gets the actual model.
         /// </summary>
         /// <value>The actual model.</value>
-        public PlotModel ActualModel
-        {
-            get
-            {
-                return this.currentModel;
-            }
-        }
+        public PlotModel ActualModel { get; private set; }
 
         /// <summary>
         /// Gets the actual controller.
@@ -296,36 +228,18 @@ namespace OxyPlot.SharpDX.Wpf
         /// <value>
         /// The actual <see cref="IController" />.
         /// </value>
-        IController IView.ActualController
-        {
-            get
-            {
-                return this.ActualController;
-            }
-        }
+        IController IView.ActualController => this.ActualController;
 
         /// <summary>
         /// Gets the coordinates of the client area of the view.
         /// </summary>
-        public OxyRect ClientArea
-        {
-            get
-            {
-                return new OxyRect(0, 0, this.ActualWidth, this.ActualHeight);
-            }
-        }
+        public OxyRect ClientArea => new OxyRect(0, 0, this.ActualWidth, this.ActualHeight);
 
         /// <summary>
         /// Gets the actual PlotView controller.
         /// </summary>
         /// <value>The actual PlotView controller.</value>
-        public IPlotController ActualController
-        {
-            get
-            {
-                return this.Controller ?? (this.defaultController ?? (this.defaultController = new PlotController()));
-            }
-        }
+        public IPlotController ActualController => this.Controller ?? (this.defaultController ??= new PlotController());
 
         /// <summary>
         /// Hides the tracker.
@@ -460,19 +374,10 @@ namespace OxyPlot.SharpDX.Wpf
         }
 
         /// <summary>
-        /// Renders the PlotView to a bitmap.
-        /// </summary>
-        /// <returns>A bitmap.</returns>
-        public WriteableBitmap ToBitmap()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Stores text on the clipboard.
         /// </summary>
         /// <param name="text">The text.</param>
-        void IPlotView.SetClipboardText(string text)
+        public void SetClipboardText(string text)
         {
             Clipboard.SetText(text);
         }
@@ -496,7 +401,7 @@ namespace OxyPlot.SharpDX.Wpf
         }
    
         /// <summary>
-        /// Called before the <see cref="E:System.Windows.UIElement.KeyDown" /> event occurs.
+        /// Called before the <see cref="UIElement.KeyDown" /> event occurs.
         /// </summary>
         /// <param name="e">The data for the event.</param>
         protected override void OnKeyDown(KeyEventArgs e)
@@ -512,7 +417,7 @@ namespace OxyPlot.SharpDX.Wpf
         }
 
         /// <summary>
-        /// Called when the <see cref="E:System.Windows.UIElement.ManipulationStarted" /> event occurs.
+        /// Called when the <see cref="UIElement.ManipulationStarted" /> event occurs.
         /// </summary>
         /// <param name="e">The data for the event.</param>
         protected override void OnManipulationStarted(ManipulationStartedEventArgs e)
@@ -527,7 +432,7 @@ namespace OxyPlot.SharpDX.Wpf
         }
 
         /// <summary>
-        /// Called when the <see cref="E:System.Windows.UIElement.ManipulationDelta" /> event occurs.
+        /// Called when the <see cref="UIElement.ManipulationDelta" /> event occurs.
         /// </summary>
         /// <param name="e">The data for the event.</param>
         protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
@@ -542,7 +447,7 @@ namespace OxyPlot.SharpDX.Wpf
         }
 
         /// <summary>
-        /// Called when the <see cref="E:System.Windows.UIElement.ManipulationCompleted" /> event occurs.
+        /// Called when the <see cref="UIElement.ManipulationCompleted" /> event occurs.
         /// </summary>
         /// <param name="e">The data for the event.</param>
         protected override void OnManipulationCompleted(ManipulationCompletedEventArgs e)
@@ -557,9 +462,9 @@ namespace OxyPlot.SharpDX.Wpf
         }
 
         /// <summary>
-        /// Called before the <see cref="E:System.Windows.UIElement.MouseWheel" /> event occurs to provide handling for the event in a derived class without attaching a delegate.
+        /// Called before the <see cref="UIElement.MouseWheel" /> event occurs to provide handling for the event in a derived class without attaching a delegate.
         /// </summary>
-        /// <param name="e">A <see cref="T:System.Windows.Input.MouseWheelEventArgs" /> that contains the event data.</param>
+        /// <param name="e">A <see cref="MouseWheelEventArgs" /> that contains the event data.</param>
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             base.OnMouseWheel(e);
@@ -574,7 +479,7 @@ namespace OxyPlot.SharpDX.Wpf
         /// <summary>
         /// Invoked when an unhandled MouseDown attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. This event data reports details about the mouse button that was pressed and the handled state.</param>
+        /// <param name="e">The <see cref="MouseButtonEventArgs" /> that contains the event data. This event data reports details about the mouse button that was pressed and the handled state.</param>
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
@@ -595,7 +500,7 @@ namespace OxyPlot.SharpDX.Wpf
         /// <summary>
         /// Invoked when an unhandled MouseMove attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
+        /// <param name="e">The <see cref="MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
@@ -610,7 +515,7 @@ namespace OxyPlot.SharpDX.Wpf
         /// <summary>
         /// Invoked when an unhandled MouseUp routed event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. The event data reports that the mouse button was released.</param>
+        /// <param name="e">The <see cref="MouseButtonEventArgs" /> that contains the event data. The event data reports that the mouse button was released.</param>
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             base.OnMouseUp(e);
@@ -646,9 +551,9 @@ namespace OxyPlot.SharpDX.Wpf
         }
 
         /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseEnter" /> attached event is raised on this element. Implement this method to add class handling for this event.
+        /// Invoked when an unhandled MouseEnter attached event is raised on this element. Implement this method to add class handling for this event.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
+        /// <param name="e">The <see cref="MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
@@ -661,9 +566,9 @@ namespace OxyPlot.SharpDX.Wpf
         }
 
         /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseLeave" /> attached event is raised on this element. Implement this method to add class handling for this event.
+        /// Invoked when an unhandled MouseLeave attached event is raised on this element. Implement this method to add class handling for this event.
         /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs" /> that contains the event data.</param>
+        /// <param name="e">The <see cref="MouseEventArgs" /> that contains the event data.</param>
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
@@ -684,35 +589,6 @@ namespace OxyPlot.SharpDX.Wpf
         {
             ((PlotView)sender).OnModelChanged();
         }
-                
-        /// <summary>
-        /// Invokes the specified action on the UI Thread (without blocking the calling thread).
-        /// </summary>
-        /// <param name="action">The action.</param>
-        private void BeginInvoke(Action action)
-        {
-            this.Dispatcher.InvokeAsync(action, System.Windows.Threading.DispatcherPriority.Background);
-        }
-
-        /// <summary>
-        /// Called when the control is loaded.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            this.InvalidatePlot();
-        }
-
-        /// <summary>
-        /// Called when the size of the control is changed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="SizeChangedEventArgs" /> instance containing the event data.</param>
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            this.InvalidatePlot(false);
-        }
 
         /// <summary>
         /// Called when the model is changed.
@@ -721,16 +597,16 @@ namespace OxyPlot.SharpDX.Wpf
         {
             lock (this.modelLock)
             {
-                if (this.currentModel != null)
+                if (this.ActualModel != null)
                 {
-                    ((IPlotModel)this.currentModel).AttachPlotView(null);
-                    this.currentModel = null;
+                    ((IPlotModel)this.ActualModel).AttachPlotView(null);
+                    this.ActualModel = null;
                 }
 
                 if (this.Model != null)
                 {
                     ((IPlotModel)this.Model).AttachPlotView(this);
-                    this.currentModel = this.Model;
+                    this.ActualModel = this.Model;
                 }
             }
 
@@ -743,10 +619,7 @@ namespace OxyPlot.SharpDX.Wpf
         /// <param name="update">if set to <c>true</c>, the data collections will be updated.</param>
         private void UpdateModel(bool update)
         {
-            if (this.ActualModel != null)
-            {
-                ((IPlotModel)this.ActualModel).Update(update);
-            }
+            ((IPlotModel)this.ActualModel)?.Update(update);
         }
     }
 }

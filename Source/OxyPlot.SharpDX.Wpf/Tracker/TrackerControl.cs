@@ -22,7 +22,7 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public static readonly DependencyProperty HorizontalLineVisibilityProperty =
             DependencyProperty.Register(
-                "HorizontalLineVisibility",
+                nameof(HorizontalLineVisibility),
                 typeof(Visibility),
                 typeof(TrackerControl),
                 new PropertyMetadata(Visibility.Visible));
@@ -32,7 +32,7 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public static readonly DependencyProperty VerticalLineVisibilityProperty =
             DependencyProperty.Register(
-                "VerticalLineVisibility",
+                nameof(VerticalLineVisibility),
                 typeof(Visibility),
                 typeof(TrackerControl),
                 new PropertyMetadata(Visibility.Visible));
@@ -41,63 +41,63 @@ namespace OxyPlot.SharpDX.Wpf
         /// Identifies the <see cref="LineStroke"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty LineStrokeProperty = DependencyProperty.Register(
-            "LineStroke", typeof(Brush), typeof(TrackerControl), new PropertyMetadata(null));
+            nameof(LineStroke), typeof(Brush), typeof(TrackerControl), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="LineExtents"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty LineExtentsProperty = DependencyProperty.Register(
-            "LineExtents", typeof(OxyRect), typeof(TrackerControl), new PropertyMetadata(new OxyRect()));
+            nameof(LineExtents), typeof(OxyRect), typeof(TrackerControl), new PropertyMetadata(new OxyRect()));
 
         /// <summary>
         /// Identifies the <see cref="LineDashArray"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty LineDashArrayProperty = DependencyProperty.Register(
-            "LineDashArray", typeof(DoubleCollection), typeof(TrackerControl), new PropertyMetadata(null));
+            nameof(LineDashArray), typeof(DoubleCollection), typeof(TrackerControl), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the <see cref="BorderEdgeMode"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty BorderEdgeModeProperty = DependencyProperty.Register(
-            "BorderEdgeMode", typeof(EdgeMode), typeof(TrackerControl));
+            nameof(BorderEdgeMode), typeof(EdgeMode), typeof(TrackerControl));
 
         /// <summary>
         /// Identifies the <see cref="ShowPointer"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ShowPointerProperty = DependencyProperty.Register(
-            "ShowPointer", typeof(bool), typeof(TrackerControl), new PropertyMetadata(true));
+            nameof(ShowPointer), typeof(bool), typeof(TrackerControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="CornerRadius"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
-            "CornerRadius", typeof(double), typeof(TrackerControl), new PropertyMetadata(0.0));
+            nameof(CornerRadius), typeof(double), typeof(TrackerControl), new PropertyMetadata(0.0));
 
         /// <summary>
         /// Identifies the <see cref="Distance"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DistanceProperty = DependencyProperty.Register(
-            "Distance", typeof(double), typeof(TrackerControl), new PropertyMetadata(7.0));
+            nameof(Distance), typeof(double), typeof(TrackerControl), new PropertyMetadata(7.0));
 
         /// <summary>
         /// Identifies the <see cref="CanCenterHorizontally"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CanCenterHorizontallyProperty =
             DependencyProperty.Register(
-                "CanCenterHorizontally", typeof(bool), typeof(TrackerControl), new PropertyMetadata(true));
+                nameof(CanCenterHorizontally), typeof(bool), typeof(TrackerControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="CanCenterVertically"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CanCenterVerticallyProperty =
             DependencyProperty.Register(
-                "CanCenterVertically", typeof(bool), typeof(TrackerControl), new PropertyMetadata(true));
+                nameof(CanCenterVertically), typeof(bool), typeof(TrackerControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the <see cref="Position"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PositionProperty = DependencyProperty.Register(
-            "Position",
+            nameof(Position),
             typeof(ScreenPoint),
             typeof(TrackerControl),
             new PropertyMetadata(new ScreenPoint(), PositionChanged));
@@ -166,15 +166,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public EdgeMode BorderEdgeMode
         {
-            get
-            {
-                return (EdgeMode)this.GetValue(BorderEdgeModeProperty);
-            }
-
-            set
-            {
-                this.SetValue(BorderEdgeModeProperty, value);
-            }
+            get => (EdgeMode)this.GetValue(BorderEdgeModeProperty);
+            set => this.SetValue(BorderEdgeModeProperty, value);
         }
 
         /// <summary>
@@ -182,15 +175,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public Visibility HorizontalLineVisibility
         {
-            get
-            {
-                return (Visibility)this.GetValue(HorizontalLineVisibilityProperty);
-            }
-
-            set
-            {
-                this.SetValue(HorizontalLineVisibilityProperty, value);
-            }
+            get => (Visibility)this.GetValue(HorizontalLineVisibilityProperty);
+            set => this.SetValue(HorizontalLineVisibilityProperty, value);
         }
 
         /// <summary>
@@ -198,15 +184,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public Visibility VerticalLineVisibility
         {
-            get
-            {
-                return (Visibility)this.GetValue(VerticalLineVisibilityProperty);
-            }
-
-            set
-            {
-                this.SetValue(VerticalLineVisibilityProperty, value);
-            }
+            get => (Visibility)this.GetValue(VerticalLineVisibilityProperty);
+            set => this.SetValue(VerticalLineVisibilityProperty, value);
         }
 
         /// <summary>
@@ -214,15 +193,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public Brush LineStroke
         {
-            get
-            {
-                return (Brush)this.GetValue(LineStrokeProperty);
-            }
-
-            set
-            {
-                this.SetValue(LineStrokeProperty, value);
-            }
+            get => (Brush)this.GetValue(LineStrokeProperty);
+            set => this.SetValue(LineStrokeProperty, value);
         }
 
         /// <summary>
@@ -230,47 +202,22 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public OxyRect LineExtents
         {
-            get
-            {
-                return (OxyRect)this.GetValue(LineExtentsProperty);
-            }
-
-            set
-            {
-                this.SetValue(LineExtentsProperty, value);
-            }
+            get => (OxyRect)this.GetValue(LineExtentsProperty);
+            set => this.SetValue(LineExtentsProperty, value);
         }
 
         /// <summary>
         /// Gets or sets LineDashArray.
         /// </summary>
-        public DoubleCollection LineDashArray
-        {
-            get
-            {
-                return (DoubleCollection)this.GetValue(LineDashArrayProperty);
-            }
-
-            set
-            {
-                this.SetValue(LineDashArrayProperty, value);
-            }
-        }
+        public DoubleCollection LineDashArray => (DoubleCollection)this.GetValue(LineDashArrayProperty);
 
         /// <summary>
         /// Gets or sets a value indicating whether to show a 'pointer' on the border.
         /// </summary>
         public bool ShowPointer
         {
-            get
-            {
-                return (bool)this.GetValue(ShowPointerProperty);
-            }
-
-            set
-            {
-                this.SetValue(ShowPointerProperty, value);
-            }
+            get => (bool)this.GetValue(ShowPointerProperty);
+            set => this.SetValue(ShowPointerProperty, value);
         }
 
         /// <summary>
@@ -278,15 +225,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public double CornerRadius
         {
-            get
-            {
-                return (double)this.GetValue(CornerRadiusProperty);
-            }
-
-            set
-            {
-                this.SetValue(CornerRadiusProperty, value);
-            }
+            get => (double)this.GetValue(CornerRadiusProperty);
+            set => this.SetValue(CornerRadiusProperty, value);
         }
 
         /// <summary>
@@ -294,15 +234,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public double Distance
         {
-            get
-            {
-                return (double)this.GetValue(DistanceProperty);
-            }
-
-            set
-            {
-                this.SetValue(DistanceProperty, value);
-            }
+            get => (double)this.GetValue(DistanceProperty);
+            set => this.SetValue(DistanceProperty, value);
         }
 
         /// <summary>
@@ -310,15 +243,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public bool CanCenterHorizontally
         {
-            get
-            {
-                return (bool)this.GetValue(CanCenterHorizontallyProperty);
-            }
-
-            set
-            {
-                this.SetValue(CanCenterHorizontallyProperty, value);
-            }
+            get => (bool)this.GetValue(CanCenterHorizontallyProperty);
+            set => this.SetValue(CanCenterHorizontallyProperty, value);
         }
 
         /// <summary>
@@ -326,15 +252,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public bool CanCenterVertically
         {
-            get
-            {
-                return (bool)this.GetValue(CanCenterVerticallyProperty);
-            }
-
-            set
-            {
-                this.SetValue(CanCenterVerticallyProperty, value);
-            }
+            get => (bool)this.GetValue(CanCenterVerticallyProperty);
+            set => this.SetValue(CanCenterVerticallyProperty, value);
         }
 
         /// <summary>
@@ -342,15 +261,8 @@ namespace OxyPlot.SharpDX.Wpf
         /// </summary>
         public ScreenPoint Position
         {
-            get
-            {
-                return (ScreenPoint)this.GetValue(PositionProperty);
-            }
-
-            set
-            {
-                this.SetValue(PositionProperty, value);
-            }
+            get => (ScreenPoint)this.GetValue(PositionProperty);
+            set => this.SetValue(PositionProperty, value);
         }
 
         /// <summary>
@@ -367,17 +279,17 @@ namespace OxyPlot.SharpDX.Wpf
 
             if (this.contentContainer == null)
             {
-                throw new InvalidOperationException(string.Format("The TrackerControl template must contain a content container with name +'{0}'", PartContentcontainer));
+                throw new InvalidOperationException($"The TrackerControl template must contain a content container with name +'{PartContentcontainer}'");
             }
 
             if (this.path == null)
             {
-                throw new InvalidOperationException(string.Format("The TrackerControl template must contain a Path with name +'{0}'", PartPath));
+                throw new InvalidOperationException($"The TrackerControl template must contain a Path with name +'{PartPath}'");
             }
 
             if (this.content == null)
             {
-                throw new InvalidOperationException(string.Format("The TrackerControl template must contain a ContentPresenter with name +'{0}'", PartContent));
+                throw new InvalidOperationException($"The TrackerControl template must contain a ContentPresenter with name +'{PartContent}'");
             }
 
             this.UpdatePositionAndBorder();
@@ -427,27 +339,27 @@ namespace OxyPlot.SharpDX.Wpf
             }
 
             // throw new InvalidOperationException("The TrackerControl must have a Canvas parent.");
-            double canvasWidth = parent.ActualWidth;
-            double canvasHeight = parent.ActualHeight;
+            var canvasWidth = parent.ActualWidth;
+            var canvasHeight = parent.ActualHeight;
 
             this.content.Measure(new Size(canvasWidth, canvasHeight));
             this.content.Arrange(new Rect(0, 0, this.content.DesiredSize.Width, this.content.DesiredSize.Height));
 
-            double contentWidth = this.content.DesiredSize.Width;
-            double contentHeight = this.content.DesiredSize.Height;
+            var contentWidth = this.content.DesiredSize.Width;
+            var contentHeight = this.content.DesiredSize.Height;
 
             // Minimum allowed margins around the tracker
-            const double MarginLimit = 10;
+            const double marginLimit = 10;
 
             var ha = HorizontalAlignment.Center;
             if (this.CanCenterHorizontally)
             {
-                if (this.Position.X - (contentWidth / 2) < MarginLimit)
+                if (this.Position.X - (contentWidth / 2) < marginLimit)
                 {
                     ha = HorizontalAlignment.Left;
                 }
 
-                if (this.Position.X + (contentWidth / 2) > canvasWidth - MarginLimit)
+                if (this.Position.X + (contentWidth / 2) > canvasWidth - marginLimit)
                 {
                     ha = HorizontalAlignment.Right;
                 }
@@ -460,7 +372,7 @@ namespace OxyPlot.SharpDX.Wpf
             var va = VerticalAlignment.Center;
             if (this.CanCenterVertically)
             {
-                if (this.Position.Y - (contentHeight / 2) < MarginLimit)
+                if (this.Position.Y - (contentHeight / 2) < marginLimit)
                 {
                     va = VerticalAlignment.Top;
                 }
@@ -468,18 +380,18 @@ namespace OxyPlot.SharpDX.Wpf
                 if (ha == HorizontalAlignment.Center)
                 {
                     va = VerticalAlignment.Bottom;
-                    if (this.Position.Y - contentHeight < MarginLimit)
+                    if (this.Position.Y - contentHeight < marginLimit)
                     {
                         va = VerticalAlignment.Top;
                     }
                 }
 
-                if (va == VerticalAlignment.Center && this.Position.Y + (contentHeight / 2) > canvasHeight - MarginLimit)
+                if (va == VerticalAlignment.Center && this.Position.Y + (contentHeight / 2) > canvasHeight - marginLimit)
                 {
                     va = VerticalAlignment.Bottom;
                 }
 
-                if (va == VerticalAlignment.Top && this.Position.Y + contentHeight > canvasHeight - MarginLimit)
+                if (va == VerticalAlignment.Top && this.Position.Y + contentHeight > canvasHeight - marginLimit)
                 {
                     va = VerticalAlignment.Bottom;
                 }
@@ -489,18 +401,17 @@ namespace OxyPlot.SharpDX.Wpf
                 va = this.Position.Y < canvasHeight / 2 ? VerticalAlignment.Top : VerticalAlignment.Bottom;
             }
 
-            double dx = ha == HorizontalAlignment.Center ? -0.5 : ha == HorizontalAlignment.Left ? 0 : -1;
-            double dy = va == VerticalAlignment.Center ? -0.5 : va == VerticalAlignment.Top ? 0 : -1;
+            var dx = ha == HorizontalAlignment.Center ? -0.5 : ha == HorizontalAlignment.Left ? 0 : -1;
+            var dy = va == VerticalAlignment.Center ? -0.5 : va == VerticalAlignment.Top ? 0 : -1;
 
-            Thickness margin;
             this.path.Data = this.ShowPointer
-                                 ? this.CreatePointerBorderGeometry(ha, va, contentWidth, contentHeight, out margin)
+                                 ? this.CreatePointerBorderGeometry(ha, va, contentWidth, contentHeight, out var margin)
                                  : this.CreateBorderGeometry(ha, va, contentWidth, contentHeight, out margin);
 
             this.content.Margin = margin;
 
             this.contentContainer.Measure(new Size(canvasWidth, canvasHeight));
-            Size contentSize = this.contentContainer.DesiredSize;
+            var contentSize = this.contentContainer.DesiredSize;
 
             this.contentContainer.RenderTransform = new TranslateTransform
             {
@@ -508,7 +419,7 @@ namespace OxyPlot.SharpDX.Wpf
                 Y = dy * contentSize.Height
             };
             
-            ScreenPoint pos = this.Position;
+            var pos = this.Position;
             
             if (this.horizontalLine != null)
             {
@@ -557,7 +468,7 @@ namespace OxyPlot.SharpDX.Wpf
         private Geometry CreateBorderGeometry(
             HorizontalAlignment ha, VerticalAlignment va, double width, double height, out Thickness margin)
         {
-            double m = this.Distance;
+            var m = this.Distance;
             var rect = new Rect(
                 ha == HorizontalAlignment.Left ? m : 0, va == VerticalAlignment.Top ? m : 0, width, height);
             margin = new Thickness
@@ -567,7 +478,7 @@ namespace OxyPlot.SharpDX.Wpf
                 Right = ha == HorizontalAlignment.Right ? m : 0,
                 Bottom = va == VerticalAlignment.Bottom ? m : 0
             };
-            return new RectangleGeometry { Rect = rect /*, RadiusX = this.CornerRadius, RadiusY = this.CornerRadius*/ };
+            return new RectangleGeometry { Rect = rect };
         }
 
         /// <summary>
@@ -583,16 +494,16 @@ namespace OxyPlot.SharpDX.Wpf
             HorizontalAlignment ha, VerticalAlignment va, double width, double height, out Thickness margin)
         {
             Point[] points = null;
-            double m = this.Distance;
+            var m = this.Distance;
             margin = new Thickness();
 
             if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Bottom)
             {
-                double x0 = 0;
-                double x1 = width;
-                double x2 = (x0 + x1) / 2;
-                double y0 = 0;
-                double y1 = height;
+                var x0 = 0;
+                var x1 = width;
+                var x2 = (x0 + x1) / 2;
+                var y0 = 0;
+                var y1 = height;
                 margin = new Thickness { Bottom = m };
                 points = new[]
                     {
@@ -603,11 +514,11 @@ namespace OxyPlot.SharpDX.Wpf
 
             if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Top)
             {
-                double x0 = 0;
-                double x1 = width;
-                double x2 = (x0 + x1) / 2;
-                double y0 = m;
-                double y1 = m + height;
+                var x0 = 0;
+                var x1 = width;
+                var x2 = (x0 + x1) / 2;
+                var y0 = m;
+                var y1 = m + height;
                 margin = new Thickness { Top = m };
                 points = new[]
                     {
@@ -618,11 +529,11 @@ namespace OxyPlot.SharpDX.Wpf
 
             if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Center)
             {
-                double x0 = m;
-                double x1 = m + width;
+                var x0 = m;
+                var x1 = m + width;
                 double y0 = 0;
-                double y1 = height;
-                double y2 = (y0 + y1) / 2;
+                var y1 = height;
+                var y2 = (y0 + y1) / 2;
                 margin = new Thickness { Left = m };
                 points = new[]
                     {
@@ -633,11 +544,11 @@ namespace OxyPlot.SharpDX.Wpf
 
             if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Center)
             {
-                double x0 = 0;
-                double x1 = width;
-                double y0 = 0;
-                double y1 = height;
-                double y2 = (y0 + y1) / 2;
+                var x0 = 0;
+                var x1 = width;
+                var y0 = 0;
+                var y1 = height;
+                var y2 = (y0 + y1) / 2;
                 margin = new Thickness { Right = m };
                 points = new[]
                     {
@@ -649,10 +560,10 @@ namespace OxyPlot.SharpDX.Wpf
             if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Top)
             {
                 m *= 0.67;
-                double x0 = m;
-                double x1 = m + width;
-                double y0 = m;
-                double y1 = m + height;
+                var x0 = m;
+                var x1 = m + width;
+                var y0 = m;
+                var y1 = m + height;
                 margin = new Thickness { Left = m, Top = m };
                 points = new[]
                     {
@@ -664,10 +575,10 @@ namespace OxyPlot.SharpDX.Wpf
             if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Top)
             {
                 m *= 0.67;
-                double x0 = 0;
-                double x1 = width;
-                double y0 = m;
-                double y1 = m + height;
+                var x0 = 0;
+                var x1 = width;
+                var y0 = m;
+                var y1 = m + height;
                 margin = new Thickness { Top = m, Right = m };
                 points = new[]
                     {
@@ -679,10 +590,10 @@ namespace OxyPlot.SharpDX.Wpf
             if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Bottom)
             {
                 m *= 0.67;
-                double x0 = m;
-                double x1 = m + width;
-                double y0 = 0;
-                double y1 = height;
+                var x0 = m;
+                var x1 = m + width;
+                var y0 = 0;
+                var y1 = height;
                 margin = new Thickness { Left = m, Bottom = m };
                 points = new[]
                     {
@@ -694,10 +605,10 @@ namespace OxyPlot.SharpDX.Wpf
             if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Bottom)
             {
                 m *= 0.67;
-                double x0 = 0;
-                double x1 = width;
-                double y0 = 0;
-                double y1 = height;
+                var x0 = 0;
+                var x1 = width;
+                var y0 = 0;
+                var y1 = height;
                 margin = new Thickness { Right = m, Bottom = m };
                 points = new[]
                     {
