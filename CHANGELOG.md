@@ -22,3 +22,4 @@ SimpleDemo: Target .NET Core 3.1
 - MeasureText fixed in cases where string is null or empty
 - Fixed render extent not being set in ArrangeOverride step on WPF (#12)
 - Fixed zero dimensions crashing plot (#14)
+- Zooming via MouseWheel not working (#24)
