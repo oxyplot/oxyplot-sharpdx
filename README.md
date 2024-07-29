@@ -2,8 +2,6 @@ OxyPlot is a cross-platform plotting library for .NET.
 
 This repository contains the SharpDX/WPF implementation. 
 
-![Plot](http://oxyplot.org/public/images/normal-distributions.png)
-
 #### Getting started
 
 1. Use the NuGet package manager to add a reference to `OxyPlot.SharpDX.WPF` (see details below if you want to use pre-release packages)
