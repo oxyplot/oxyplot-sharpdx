@@ -110,7 +110,7 @@ Finally, push your commits: `git push`
 
 ## Merging
 
-When the PR is submitted, Appveyor will build the code and report if the build was successful.
+When the PR is submitted, GitHub will build the code and report if the build was successful.
 A team member will then review the PR, and merge the branch if everything looks OK.
 
 If there are some issues with the PR, you must
